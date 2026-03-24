@@ -48,6 +48,9 @@ def parse_args():
     parser.add_argument('--disable_conf', action='store_true', help='Ablation: remove Confidence Encoder')
     parser.add_argument('--disable_former', action='store_true', help='Ablation: remove Global Linear Attention (Former)') # 新增
     parser.add_argument('--disable_bico', action='store_true', help='Ablation: remove BiCoAttention (Compatibility)') 
+    parser.add_argument('--disable_rel_attn', action='store_true', help='Ablation: disable relation-aware attention aggregation')
+    parser.add_argument('--disable_denoise', action='store_true', help='Ablation: disable edge-level denoising')
+    parser.add_argument('--disable_cross', action='store_true', help='Ablation: disable cross-stream attention')
     parser.add_argument('--conf_mask_prob', type=float, default=0.8, help='Keep probability for confidence masking')
     
     return parser.parse_args()
@@ -128,6 +131,9 @@ def run_single_experiment(args, train_kg, train_loader, val_loader, test_loader,
         disable_conf=args.disable_conf,
         disable_former=args.disable_former,
         disable_bico=args.disable_bico,
+        disable_rel_attn=args.disable_rel_attn,
+        disable_denoise=args.disable_denoise,
+        disable_cross=args.disable_cross,
         conf_mask_prob=args.conf_mask_prob
     )
     lit_model = KGReasoningModule(model, lr=args.lr)
